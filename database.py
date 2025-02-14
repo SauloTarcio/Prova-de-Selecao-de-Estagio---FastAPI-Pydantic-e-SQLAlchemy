@@ -5,12 +5,15 @@ import os
 
 """this file create conections for database"""
 
-load_dotenv()
+load_dotenv(dotenv_path='config.env')
 
 database_url = os.getenv("DATABASE_URL")
+
+if not database_url:
+    raise ValueError("A variável DATABASE_URL não está definida no ambiente!")
 
 engine = create_engine(database_url)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-base = declarative_base()
+Base = declarative_base()
