@@ -18,7 +18,7 @@ def get_db():
 
 @app.post("/empresa/", response_model=schemas.Empresa)
 def create_empresa(empresa: schemas.EmpresaCreate, db: Session = Depends(get_db)):
-    return crud.create_empresas(db, empresa)
+    return crud.create_empresa(db, empresa)
 
 @app.get("/empresas/", response_model=list[schemas.Empresa])
 def listar_empresas(db: Session = Depends(get_db)):

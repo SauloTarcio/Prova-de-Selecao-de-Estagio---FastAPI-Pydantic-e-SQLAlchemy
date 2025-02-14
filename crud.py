@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 import models, schemas
 
-def create_empresas(db: Session, empresa: schemas.EmpresaCreate):
+def create_empresa(db: Session, empresa: schemas.EmpresaCreate):
     db_empresa = models.Empresa(nome=empresa.nome, cnpj=empresa.cnpj, 
                                 endereco=empresa.endereco, email=empresa.email, telefone=empresa.telefone)
     db.add(db_empresa)
@@ -9,7 +9,7 @@ def create_empresas(db: Session, empresa: schemas.EmpresaCreate):
     db.refresh(db_empresa)
     return db_empresa
 
-def obter_empresas(db: Session):
+def obter_empresa(db: Session):
     return db.query(models.Empresa).all()
 
 def obter_empresa_por_id(db: Session, empresa_id: int):
@@ -28,7 +28,7 @@ def update_empresa(db: Session, empresa_id: int, empresa: schemas.EmpresaCreate)
         return db_empresa
     return None
     
-def delete_empresa(db: Session, empresa_id: int, empresa: schemas.EmpresaBase):
+def delete_empresa(db: Session, empresa_id: int):
     db_empresa = db.query(models.Empresa).filter(models.Empresa.id == empresa_id).first()
     if db_empresa:
         db.delete(db_empresa)
@@ -45,6 +45,9 @@ def create_obrigacao(db: Session, obrigacao: schemas.ObrigacaoAcessoriaCreate, e
 
 def obter_obrigacoes(db: Session, empresa_id: int):
     return db.query(models.ObrigacaoAcessoria).filter(models.ObrigacaoAcessoria.empresa_id == empresa_id).all()
+
+def obter_obrigacao_por_id(db: Session, obrigacao_id: int):
+    return db.query(models.ObrigacaoAcessoria).filter(models.ObrigacaoAcessoria.id == obrigacao_id).first()
 
 def update_obrigacao(db: Session, obrigacao_id: int, obrigacao: schemas.ObrigacaoAcessoriaCreate):
     db_obrigacao = db.query(models.ObrigacaoAcessoria).filter(models.ObrigacaoAcessoria.id == obrigacao_id).first()

@@ -12,12 +12,12 @@ class ObrigacaoAcessoria(ObrigacaoAcessoriaBase):
     id: int
     empresa_id: int
     
-    class config:
+    class Config:
         from_attributes = True
 
 class EmpresaBase(BaseModel):
     nome: str
-    cpnj: str = Field(..., min_length=14, max_length=14, pattern=r"^\d{14}$")
+    cnpj: str = Field(..., min_length=14, max_length=14, pattern=r"^\d{14}$")
     endereco: str
     email: str
     telefone: str
@@ -27,7 +27,7 @@ class EmpresaCreate(EmpresaBase):
 
 class Empresa(EmpresaBase):
     id: int
-    obrigacoes: List["ObrigacaoAcessoria"] = []
+    obrigacoes: List[ObrigacaoAcessoria] = []
 
-    class config:
+    class Config:
         from_attributes = True
