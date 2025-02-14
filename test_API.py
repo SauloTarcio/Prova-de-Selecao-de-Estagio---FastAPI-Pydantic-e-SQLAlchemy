@@ -8,24 +8,24 @@ client = TestClient(app)
 def test_create_empresa():
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cnpj": "12345678000183", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000123", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     assert response.status_code == 200
     data = response.json()
     assert data["nome"] == "Empresa Teste"
-    assert data["cnpj"] == "12345678000143"
+    assert data["cnpj"] == "12345678000123"
 
 def test_listar_empresas():
     response = client.get("/empresas/")
     assert response.status_code == 200
     data = response.json()
-    assert isinstance(data, list)  # Espera que seja uma lista de empresas
+    assert isinstance(data, list)
 
 def test_obter_empresa():
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cpnj": "12345678000564", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000124", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     empresa_id = response.json()["id"]
@@ -34,19 +34,19 @@ def test_obter_empresa():
     assert response.status_code == 200
     data = response.json()
     assert data["nome"] == "Empresa Teste"
-    assert data["cpnj"] == "12345678000564"
+    assert data["cnpj"] == "12345678000124"
 
 def test_update_empresa():
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cpnj": "12345678000123", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000125", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     empresa_id = response.json()["id"]
 
     response = client.put(
         f"/empresas/{empresa_id}", 
-        json={"nome": "Empresa Atualizada", "cpnj": "12345678000123", 
+        json={"nome": "Empresa Atualizada", "cnpj": "12345678000125", 
               "endereco": "Novo Endereço", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     assert response.status_code == 200
@@ -56,7 +56,7 @@ def test_update_empresa():
 def test_delete_empresa():
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cpnj": "12345678000123", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000126", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     empresa_id = response.json()["id"]
@@ -73,7 +73,7 @@ def test_delete_empresa():
 def test_create_obrigacao():
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cpnj": "12345678000123", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000127", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     empresa_id = response.json()["id"]
@@ -90,7 +90,7 @@ def test_create_obrigacao():
 def test_listar_obrigacoes():
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cpnj": "12345678000123", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000128", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     empresa_id = response.json()["id"]
@@ -112,7 +112,7 @@ def test_listar_obrigacoes():
 def test_obter_obrigacao():
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cpnj": "12345678000123", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000129", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     empresa_id = response.json()["id"]
@@ -131,7 +131,7 @@ def test_obter_obrigacao():
 def test_delete_obrigacao():
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cpnj": "12345678000123", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000130", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     empresa_id = response.json()["id"]
@@ -148,13 +148,14 @@ def test_delete_obrigacao():
     assert data["nome"] == "Obrigação Teste"
 
 def test_update_obrigacao():
+    # Criar uma empresa
     response = client.post(
         "/empresa/", 
-        json={"nome": "Empresa Teste", "cnpj": "12345678000123", 
+        json={"nome": "Empresa Teste", "cnpj": "12345678000131", 
               "endereco": "Endereço Teste", "email": "empresa@teste.com", "telefone": "1122334455"}
     )
     empresa_id = response.json()["id"]
-    
+
     response = client.post(
         f"/empresas/{empresa_id}/obrigacoes/", 
         json={"nome": "Obrigação Teste", "periodicidade": "Mensal"}

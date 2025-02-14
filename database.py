@@ -3,8 +3,6 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 import os
 
-"""this file create conections for database"""
-
 load_dotenv(dotenv_path='config.env')
 
 database_url = os.getenv("DATABASE_URL")
