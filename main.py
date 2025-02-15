@@ -1,9 +1,22 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import engine, SessionLocal
+from database import engine, SessionLocal, Base
 import models, schemas, crud
+import os
 
-models.Base.metadata.create_all(bind=engine)
+# Função para recriar o banco de dados no modo de teste
+def recreate_db():
+    if os.getenv("TEST_MODE") == "true":
+        print("Modo de teste ativo. Recriando o banco de dados...")
+
+        # Dropa todas as tabelas
+        Base.metadata.drop_all(bind=engine)
+
+        # Cria novamente todas as tabelas
+        Base.metadata.create_all(bind=engine)
+
+# Recriar o banco de dados (se necessário)
+recreate_db()
 
 app = FastAPI()
 
